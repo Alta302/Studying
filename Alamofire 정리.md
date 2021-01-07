@@ -16,6 +16,8 @@
 
 Alamofire.request에는 다양한 인자가 존재한다.
 
+
+
 **기본 사용법**
 
 > Alamofire.request("URL")
@@ -41,4 +43,14 @@ public enum HTTPMethod: String {
 }
 ```
 
+
+
 대표적인 method는 REST API에서 이용되는 get, post, put, delete를 인자로 전달할 수 있으며 사용은 아래와 같이 한다.
+
+```swift
+AF.request("https://google.com/get")
+AF.request("https://google.com/post", method: .post)
+AF.request("https://google.com/put", method: .put)
+AF.request("https://google.com/delete", method: .delete)
+```
+
