@@ -92,3 +92,34 @@ AF.request("https://google.com/get").responseJSON {
 }
 ```
 
+request에 대한 response를 처리하기 위해 closure 타입으로 콜백이 지정된다.
+
+response에 정의된 closure 안에서 수신된 응답에 대한 처리를 진행하며 해당 방식은 비동기로 처리된다.
+
+
+
+#### Response Validation
+
+기본적으로 Alamofire는 response 내용과는 상관없이 정상처리된 request는 .success로 처리된다.
+
+
+
+Manual Validation
+
+```swift
+Alamofire.request("https://google.com/get")
+	.validate(statusCode: 200..<300)
+	.validate(contentType: ["application/json"])
+	.responseData { response in
+  	switch response.result {
+      case .success:
+        print("success")
+      case .failure(let e):
+      	print(e)
+    }
+  }
+```
+
+
+
+참고 자료: https://duwjdtn11.tistory.com/557
