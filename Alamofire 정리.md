@@ -122,4 +122,23 @@ Alamofire.request("https://google.com/get")
 
 
 
+Automatic Validation
+
+```swift
+Alamofire.request("https://google.com/get").validate().responseData { response in
+	switch response.result {
+    	case .success:
+    print("success")
+    	case .failure(let e):
+    print(e)
+  }
+}
+```
+
+
+
+validate()는 자동적으로 정상 status code 범위와, request의 헤더와 일치하는 Content-Type에 대해 유효성을 검증한다.
+
+
+
 참고 자료: https://duwjdtn11.tistory.com/557
