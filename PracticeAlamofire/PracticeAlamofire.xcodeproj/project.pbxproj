@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		34B1936325A6CE76F003A4B4 /* Pods_PracticeAlamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 693D9916124F6A6AAB860442 /* Pods_PracticeAlamofire.framework */; };
+		54C52B6D25AD3CDF00CD9C01 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C52B6C25AD3CDF00CD9C01 /* CustomCell.swift */; };
 		54EAFEB725AD387600D3B9B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EAFEB625AD387600D3B9B7 /* AppDelegate.swift */; };
 		54EAFEB925AD387600D3B9B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EAFEB825AD387600D3B9B7 /* SceneDelegate.swift */; };
 		54EAFEBB25AD387600D3B9B7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EAFEBA25AD387600D3B9B7 /* ViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		54C52B6C25AD3CDF00CD9C01 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		54EAFEB325AD387600D3B9B7 /* PracticeAlamofire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PracticeAlamofire.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54EAFEB625AD387600D3B9B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		54EAFEB825AD387600D3B9B7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				54EAFEBF25AD387600D3B9B7 /* Assets.xcassets */,
 				54EAFEC125AD387600D3B9B7 /* LaunchScreen.storyboard */,
 				54EAFEC425AD387600D3B9B7 /* Info.plist */,
+				54C52B6C25AD3CDF00CD9C01 /* CustomCell.swift */,
 			);
 			path = PracticeAlamofire;
 			sourceTree = "<group>";
@@ -88,7 +91,6 @@
 				D43C2596E10526B82741348A /* Pods-PracticeAlamofire.debug.xcconfig */,
 				9EA0913C2E9C8EE619D8A37C /* Pods-PracticeAlamofire.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -208,6 +210,7 @@
 			files = (
 				54EAFEBB25AD387600D3B9B7 /* ViewController.swift in Sources */,
 				54EAFEB725AD387600D3B9B7 /* AppDelegate.swift in Sources */,
+				54C52B6D25AD3CDF00CD9C01 /* CustomCell.swift in Sources */,
 				54EAFEB925AD387600D3B9B7 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
