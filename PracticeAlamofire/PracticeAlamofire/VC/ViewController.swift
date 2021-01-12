@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 class ViewController: UIViewController {
     let urlString = "https://api.androidhive.info/contacts/"
     let tableView = UITableView()
@@ -25,6 +27,11 @@ class ViewController: UIViewController {
             make.edges.equalToSuperview()
             
         }
+        
+    }
+    
+    private func registerCell() {
+        tableView.register(CustomCell.self, forCellReuseIdentifier: CustomCell.identifier)
         
     }
 
