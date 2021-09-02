@@ -306,5 +306,134 @@ github "ReactiveX/RxSwift" ~> 4.0
 
 
 
+### Ch.2 Observable
+
+#### A. 시작하기
+
+- 예제로 제공된 `RxSwiftPlayground.playground` 파일을 이용해 공부할 것
+- `.playground` 파일에 직접 연결하지 말고 `.xcworkspace` 파일을 통해 `.playground`를 확인할 수 있으니 주의
+- `xcworkspace` > `.playground` 파일 하단의 `Sources` 폴더를 보면 `SupportCode.swift` 파일이 있으며, 여기엔 필요한 부분에 대한 예제를 볼 수 있는 도우미 method가 아래와 같이 정의되어 있으니 참고
+
+```swift
+public func example(of description: String, action: () -> Void) {
+  print("\n--- Example of:", description, "---")
+  action()
+}
+```
+
+#### B. Observable 이란?
+
+- Rx의 심장
+- Observable이 무엇인지, 어떻게 만드는지, 어떻게 사용하는지에 대해서 알아볼 것임
+- `observable` = `observable sequence` = `sequence`: 각각의 단어를 계속 보게 될 것인데 이는 곧 다 같은 말이다. (Everything is a sequence)
+- 중요한 것은 이 모든 것들이 **비동기적(asynchronous)**이라는 것.
+- Observable 들은 일정 기간 동안 계속해서 **이벤트**를 생성하며, 이러한 과정을 보통 **emitting**(방출)이라고 표현한다.
+- 각각의 이벤트들은 숫자나 커스텀한 인스턴스 등과 같은 **값**을 가질 수 있으며, 또는 탭과 같은 **제스처**를 인식할 수도 있다.
+- 이러한 개념들을 가장 잘 이해할 수 있는 방법은 marble diagrams를 이용하는 것이다.
+  - marble diagram?: 시간의 흐름에 따라서 값을 표시하는 방식
+  - 시간은 왼쪽에서 오른쪽으로 흐른다는 가정
+  - 참고하면 좋을 사이트: [RxMarbles](http://rxmarbles.com)
+
+#### C. Observable의 생명주기
+
+![img](https://github.com/fimuxd/RxSwift/raw/master/Lectures/02_Observables/1.%20marble.png?raw=true)
+
+- 상단의 Marble diagram을 보면 세 개의 구성요소를 확인할 수 있다.
+- Observable은 앞서 설명했던 `next` 이벤트를 통해 각각의 요소들을 방출하는 것.
+
+![img](https://github.com/fimuxd/RxSwift/raw/master/Lectures/02_Observables/2.%20lifecycle1.png?raw=true)
+
+- 이 Observable은 세 개의 tap 이벤트를 방출한 뒤 완전종료됨. 이 것을 앞서 말한 대로 `completed` 이벤트라고 한다.
+
+![img](https://github.com/fimuxd/RxSwift/raw/master/Lectures/02_Observables/3.%20lifecycle2.png?raw=true)
+
+- 이 marble diagram에서는 상단의 예시들과 다르게 에러가 발생한 것.
+- Observable이 완전종료되었다는 면에선. 다를게 없지만, `error` 이벤트를 통해 종료된 것
+
+> 정리하면,
+>
+> - Observable은 어떤 구성요소를 가지는 `next` 이벤트를 계속해서 방출할 수 있다.
+> - Observable은 `error` 이벤트를 방출하여 완전 종료될 수 있다.
+> - Observable은 `complete` 이벤트를 방출하여 완전 종료 될 수 있다.
+
+- RxSwift 소스코드 예제를 살펴보자. 예제에서 이러한 이벤트들은 enum 케이스로 표현되고 있다.
+
+  ```swift
+  /// Represents a sequence event.
+  ///
+  /// Sequence grammar:
+  /// **next\* (error | completed)**
+  public enum Event<Element> {
+    /// Next elemet is produced.
+    case next(Element)
+    
+    /// Sequence terminated with an error.
+    case error(Swift.Error)
+    
+    /// Sequence completed successfully.
+    case completed
+  }
+  ```
+
+  - 여기서 `.next` 이벤트는 어떠한 `Element` 인스턴스를 가지고 있는 것을 확인할 수 있다.
+  - `.error` 이벤트는 `Swift.Error` 인스턴스를 가진다.
+  - `completed` 이벤트는 아무런 인스턴스를 가지지 않고 단순히 이벤트를 종료시킨다.
+
+#### D. Observable 만들기
+
+- `RxSwift.playground`에 하단의 코드를 추가해봅시다.
+
+  ```swift
+  example(of: "just, of, from") {
+    // 1
+    let one = 1
+    let two = 2
+    let three = 3
+    
+    // 2
+    let observable:Observable<Int>.just(one)
+  }
+  ```
+
+  - 이 코드로 해야할 것
+    - i) 다음 예제에서 사용할 Int 상수를 정의
+    - ii) `one` 정수를 이용한 `just` method를 통 `Int` 타입의 Observable sequence를 만들 것
+  - `just`는 `Observable`의 타입 메소드. 이름에서 추측할 수 있듯, 오직 하나의 요소를 포함하는 Observable sequence를 생성한다.
+    - 내가 이해한게 맞다면 상기코드의 `Observable`은 `1` 을 뿜! 할 듯.
+  - Rx에는 ***operator***(연산자)가 있으니 이걸 이용할 수 있을 것임.
+
+- 상기 코드 하단에 아래 코드를 추가해봅시다.
+
+  ```swift
+  let observable2 = Observable.of(one, two, three)
+  ```
+
+  - `obervable2`의 타입은 `Observable<Int>`
+  - `.of` 연산자는 주어진 값들의 타입추론을 통해 `Observable` sequence를 생성함.
+  - 따라서 어떤 array를 observable array로 만들고 싶다면, array를 `.of` 연산자에 집어 넣으면 된다.
+  - [Marble diagram 확인](http://rxmarbles.com/#of)
+
+- 아래 코드도 추가해 봅시다.
+
+  ```swift
+  let observable3 = Observable.of([one, two, three])
+  ```
+
+  - `observable3`의 타입은 `Observable<[Int]>`
+  - 이렇게 하면 `just` 연산자를 쓴 것과 같이 `[1, 2, 3]`를 단일요소로 가지게 된다.
+
+- `Observable`을 만들 수 있는 또다른 연산자는 `from` 이다.
+
+  ```swift
+  let observable4 = Observable.from([one, two, three])
+  ```
+
+  - `observable4`의 타입은 `Observable<Int>`
+  - `from` 연산자는 일반적인 array 각각 요소들을 하나씩 방출한다
+  - `from` 연산자는 ***오직 array 만*** 취한다.
+  - [Marble diagram 확인](http://rxmarbles.com/#from)
+
+
+
 출처: [여기](https://github.com/fimuxd/RxSwift)
 
