@@ -433,6 +433,148 @@ public func example(of description: String, action: () -> Void) {
   - `from` 연산자는 ***오직 array 만*** 취한다.
   - [Marble diagram 확인](http://rxmarbles.com/#from)
 
+#### E. Observable 구독
+
+> Tip: 사실 구독이라 표현한 부분은 *subscribing*을 사전적 의미 그대로 번역한 것에 불과합니다. 그래서 정확히 어떤 의미인지 두호님께 물어봤었는데, 사실 각각의 케이스에 대해서 해당 *subscribing*이 어떤 의미인지 질문을 한다면 명확한 답을 드릴 수 있지만, 단순히 Observable에서 *subscribing*이 어떤 의미인지 이해하시려면 여러가지 케이스와 경험을 통해서 그 느낌을 축적하시는 수 밖에 없다고 하시네요. 그래서 일단은 하단의 내용처럼 책에서 서술한 내용을 단순번역 해보겠습ㄴ다. 그리고 시간이 지나서 다시 읽어보면 수정할 부분이 많이 생길 것 같습니다.
+
+- iOS 개발자라면 `NotificationCenter`에 익숙할 것이다. 하단의 예제는 클로저 문법을 이용해서 `UIKeyboardDidChangeFrame` notification의 observer를 나타낸 것이다.
+
+  ```swift
+  let observer = NotificationCenter.default.addObserver (
+    forName: .UIKeyboardDidChangeFrame,
+    object: nil,
+    quine: nil
+  ) { notification in
+    // Handle receiving notification
+  }
+  ```
+
+  - RxSwift의 Observable를 구독하는 것은 상기 방식과 비슷하다.
+    - Observable을 구독하고 싶을 때 구독(subscribe)!을 선언한다.
+    - 따라서 `addObserver()` 대신에 `subscribe()`를 사용함.
+    - 다만 상기코드가 `.default` 싱글톤 인스턴스에서만 가능했다면, Rx의 Observable의 경우는 그렇지 않다.
+
+- **(중요)** Observable은 실제로 sequence 정의일 뿐이다. **Observable은 subscriber, 즉 구독되기 전에는 아무런 이벤트도 보내지 않는다.** 그저 정의일뿐.
+
+- Observable 구현은 Swift 기본 라이브러리의 반복문에서 `.next()`를 구현하는 것과 매우 유사하다.
+
+  ```swift
+  let sequence = 0..<3
+  var iterator = sequence.makeIterator()
+  while let n = iterator.next() {
+    print(n)
+  }
+  
+  /* Prints:
+  	0
+  	1
+  	2
+  */
+  ```
+
+  - Observable 구독은 이보다 더 간단하다.
+  - Observable이 방출하는 각각의 이벤트 타입에 대해서 handler를 추가할 수 있다.
+  - Observable은 `.next`, `.error`, `.completed` 이벤트들을 다시 방출할 것이다.
+    - `.next`는 handler를 통해 방출된 요소를 패스할 것이고,
+    - `.error`는 error 인스턴스를 가질 것
+
+##### 1. .subscribe()
+
+- `RxSwift.playground`에 하단의 코드를 추가해봅시다.
+
+  ```swift
+  example(of: "subscribe") {
+    let one = 1
+    let two = 2
+    let three = 3
+    
+    let observable = Observable.of(one, two, three)
+    observable.subscribe({ (event) in
+    	print(event)
+    })
+    
+    /* Prints:
+      next(1)
+    	next(2)
+    	next(3)
+    	completed
+    */
+  }
+  ```
+
+  - `.subscribe`는 escaping 클로저로 `Int` 타입을 `Event`로 갖는다. escaping에 대한 리턴값은 없으며(Void) `.subscribe`은 (곧 배울) `Disposable`을 리턴한다.
+  - 프린트된 값을 보면, Observable은
+    - i) 각각의 요소들에 대해서 `.next` 이벤트를 방출했다.
+    - ii) 최종적으로 `.completed`를 방출했다.
+  - Observable을 이용하다보면, 대부분의 경우 Observable이 `.next` 이벤트를 통해 방출하는 요소에 가장 관심가지게 될 것이다.
+
+##### 2. .subscribe(onNext:)
+
+- 상기의 코드를 다음과 같이 바꿔보면,
+
+  ```swift
+  observable.subscribe { event in
+  	if let element = event.element {
+      print(element)
+    }
+  }
+  
+  /* Prints:
+  	1
+  	2
+  	3
+  */
+  ```
+
+  - 아주 자주 쓰이는 패턴이기 때문에 RxSwift에는 이 부분에 대한 축약형들이 있다.
+  - 즉, Observable이 방출하는 `.next`, `.error`, `.completed` 같은 각각의 이벤트들에 대해 `subscribe` 연산자가 있다.
+
+- 상기의 코드를 다음과 같이 바꿔보면,
+
+  ```swift
+  observable.subscribe(onNext: { (element) in
+    print(element)
+  })
+  
+  /* Prints:
+  	1
+  	2
+  	3
+  */
+  ```
+
+  - `.onNext` 클로저는 `.next` 이벤트만을 argument로 취한 뒤 핸들링할 것이고, 다른 것들은 모두 무시하게 된다.
+
+##### 3. .empty()
+
+- 지금까지는 하나 또는 여러개의 요소를 가진 Observable만 만들었다. 그렇다면 요소를 하나도 가지지 않는 (count = 0) Observable은 어떻게 될까? `empty` 연산자를 통해 `.completed` 이벤트만 방출하게 된다.
+
+  ```swift
+  example(of: "empty") {
+    let observable = Observable<Void>.empty()
+    
+    observable.subscribe (
+      
+      // 1
+      onNext:{ (element) in
+        print(element)
+    },
+      
+      // 2
+      onCompleted: {
+        print("Completed")
+    }
+    )
+  }
+  
+  /* Prints:
+    Completed
+  */
+  ```
+
+  - Observable은 반드시 특정 타입으로 정의되어야 한다.
+  - 이 예제의 경우 타입추론할 것이 없기 때문에 (가지고 있는 요소가 없으므로) 타입을 명시적으로 정의해줘야 하며, 따라서 `Void` 는 아주 적절한 타입이 될 것이다.
+
 
 
 출처: [여기](https://github.com/fimuxd/RxSwift)
