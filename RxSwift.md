@@ -574,8 +574,145 @@ public func example(of description: String, action: () -> Void) {
 
   - Observable은 반드시 특정 타입으로 정의되어야 한다.
   - 이 예제의 경우 타입추론할 것이 없기 때문에 (가지고 있는 요소가 없으므로) 타입을 명시적으로 정의해줘야 하며, 따라서 `Void` 는 아주 적절한 타입이 될 것이다.
+  - 주석으로 표기한 각 번호를 따라가보면
+    - a. `.next` 이벤트를 핸들링 한다.
+    - b. `.completed` 이벤트는 어떤 요소를 가지지 않으므로 단순히 메시지만 프린트 한다.
+  - 그렇다면 대체 `empty` Observable의 용도는 뭐가 있을까?
+    - 즉시 종료할 수 있는 Observable을 리턴하고 싶을 때
+    - 의도적으로 0개의 값을 가지는 Observable을 리턴하고 싶을 때
 
+##### 4. .never()
 
+- `empty`와는 반대로 `never` 연산자가 있다.
+
+  ```swift
+  example(of: "never") {
+    let observable = Observable<Any>.never()
+    
+    observable
+    	.subscribe (
+      	onNext: { (element) in
+        	print(element)
+      },
+      	onCompleted: {
+          print("Completed")
+      }
+    )
+  }
+  ```
+
+  - 이렇게 하면 `Completed` 조차 프린트 되지 않는다.
+  - 이 코드가 제대로 작동하는지 어떻게 확인할 수 있을까? 이 부분은 [Challenges](https://github.com/fimuxd/RxSwift/blob/master/Lectures/02_Observables/Ch2.%20Observables.md#1-부수작용-구현해보기-do-연산자) 섹션에서 알아보도록 하자
+
+##### 5. .range()
+
+- 하기 코드를 생각해보자
+
+  ```swift
+  example(of: "range") {
+    
+    // 1
+    let observable = Observable<Int>.range(start: 1, count: 10)
+    
+    obsrvable
+    	.subscribe(onNext: { (i) in
+        
+        // 2
+        let n = Double(i)
+        let fibonacci = Int(((pow(1.61803, n) - pow(0.61803, n)) / 2.23606).rounded())
+                          
+      })
+  }
+  ```
+
+  - 주석대로 하나씩 살펴보면,
+    - a. `range` 연산자를 이용해서 `start` 부터 `count`크기 만큼의 값을 갖는 Observable을 생성한다.
+    - b. 각각 방출된 요소에 대한 n번째 피보나치 숫자를 계산하고 출력한다.
+  - 추후 Ch7.Transforming Operators 에서 배울 내용에는, 방출된 요소들을 변형하는 방법으로 `onNext` 핸들러보다 더 나은 방법들을 배울 수 있다.
+
+#### F. Disposing과 종료
+
+- **(한번더, 중요) Observable은 subscription을 받기 전까진 아무짓도 하지 않음.**
+- 즉, subscription이 Observable이 이벤트들을 방출하도록 해줄 방아쇠 역할을 한다는 의미
+- 따라서 (반대서 생각해보면) Observable에 대한 구독을 취소함으로써 Observable을 수동적으로 종료시킬 수 있다.
+
+##### 1. .dispose()
+
+- 하기의 코드를 살펴보자
+
+  ```swift
+  example(of: "dispose") {
+    
+    // 1
+    let observable = Observable.of("A", "B", "C")
+    
+    // 2
+    let subscription = observable.subscribe({ (event) in
+      
+      // 3
+      print(event)
+    })
+    
+    subscription.dispose()
+  }
+  ```
+
+  - 주석대로 하나씩 살펴보면,
+    - a. 어떤 string 의 Observable을 생성
+    - b. 이 Observable을 구독해봅니다. 여기서는 `subscripe`를 이용해 `Disposable`을 리턴하도록 한다.
+    - c. 출력된 각각의 이벤트들을 프린트 한다.
+  - 여기서 구독을 취소하고 싶으면 `dispose()`를 호출하면 된다. 구독을 취소하거나 *dispose* 한 뒤에는 이벤트 방출이 정지된다.
+  - 현재 `observable` 안에는 3개의 요소만 있으므로 `dispose()` 를 호출하지 않아도 `Completed`가 프린트 되지만, 요소가 무한히 있다면 `dispose()` 를 호출해야 `Completed` 가 프린트 된다.
+
+##### 2. DisposeBag()
+
+- 각각의 구독에 대해서 일일히 관리하는 것은 효율적이지 못하기 때문에, RxSwift에서 제공하는 `DisposedBag` 타입을 이용할 수 있다.
+- `DisposeBag`에는 (보통은 `.disposed(by:)` method를 통해 추가된) disposables를 가지고 있다.
+- disposable은 dispose bag이 할당 해제 하려고 할 때마다 dispose()를 호출한다.
+- 하기의 코드를 살펴보자
+  - 주석대로 하나씩 살펴보면,
+    - a. dispose bag을 만든다.
+    - b. observable을 만든다.
+    - c. 방출하는 이벤트를 프린팅한다.
+    - d. `subscribe`로부터 방출된 리턴 값을 `disposeBag`에 추가한다.
+  - 이러한 패턴은 앞으로 아주 흔하게 사용하게 될 패턴이다. (Observable에 대해 subscribing 하고 이 것을 즉시 dispose bag에 추가하는 것)
+- 귀찮게 이런 짓을 왜 매번 해야하는걸까?
+  - 만약 dispose bag을 subscription에 추가하거나 수동적으로 `dispose`를 호출하는 것을 빼먹는다면, 당연히 메모리 누수가 일어날 것이다.
+  - 하지만 걱정마. Swift 컴파일러가 disposable을 쓰지 않을 때마다 경고를 날려줄거임 ^^
+
+##### 3. .create(:)
+
+- 앞서  `.next ` 이벤트를 이용해서 Observable을 만들었듯이,  `.create ` 연산자로 만드는 다른 방법이 있다.
+
+- 하기 코드를 살펴보자
+
+  ```swift
+  example(of: "create") {
+    let disposeBag = DisposeBag()
+    
+    Observable<String>.create ({ (observer) -> Disposable in
+      // 1
+    	observer.onNext("1")
+      
+      // 2
+      observer.onCompleted()
+      
+      // 3
+      observer.onNext("?")
+      
+      // 4
+    	return Disposables.create()
+  	})
+  }
+  ```
+
+  -  `create` 는 escaping 클로저로, escaping에서는 `AnyObserver`를 취한 뒤 `Disposable`을 리턴한다.
+  - 여기서 `AnyObserver`란 generic 타입으로 Observable sequence에 값을 쉽게 추가할 수 있다. 추가한 값은 subscriber에 방출된다.
+  - 주석대로 하나씩 살펴보면,
+    - a. `.next` 이벤트를 Observer에 추가한다. `onNext(_:)`는 `on(.next(_:))`를 편리하게 쓰는 용도
+    - b. `.completed` 이벤트를 Observer에 추가한다. `onCompleted` 역시 `on(.completed)`를 간소화한 것
+
+ 
 
 출처: [여기](https://github.com/fimuxd/RxSwift)
 
