@@ -231,6 +231,16 @@ Text(Date(), style: .date)
 
 
 
+## SwiftUI와 UIKit
+
+- SwiftUI는 UIKit의 대체는 아닙니다. 이유는 SwiftUI의 많은 기능들이 UIKit 상에서 작동합니다.
+- UIKit는 이벤트 중심 프레임워크 / SwiftUI는 상태 중심 프레임워크
+- UIKit 위에서 빌드된다는 말로 코드가 내부에서 UIKit에 있는 컴포넌트 소스로 변환해 컴파일 한다는 의미
+- 동시에 사용하려면 UIHostingController를 사용
+- UIKit의 경우 view들이 UIView 클래스를 상속받는데, SwiftUI는 구조체이면서 view protocol만 준수하면 됩니다.
+
+
+
 ## 출처
 
 https://developer.apple.com/kr/xcode/swiftui/
