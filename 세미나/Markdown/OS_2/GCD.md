@@ -32,7 +32,7 @@
 - GCD는 앱이 블록 객체 형태로 작업을 전송할 수 있는 FIFO 대기열(Queue)을 제공하고 관리합니다.
 - Queue에 전달된 작업은 시스템이 전적으로 관리하는 스레드 풀(a pool of threads)에서 실행됩니다.
 - DispatchQueue는 2개의 타입(Serial / Concurrent)으로 구분되며 둘 모두 FIFO 순서로 처리합니다.
-- 앱을 실행하면 시스템이 자동으로 메인스레드 위에서 동작하는 Main 큐(Serial Queue)를 만들어서 작업을 수행하고, 그 외에 추가적으로 여러 개의 Global 큐(Cuncurrent Queue)를 만들어서 큐를 관리합니다.
+- 앱을 실행하면 시스템이 자동으로 메인 스레드 위에서 동작하는 Main 큐(Serial Queue)를 만들어서 작업을 수행하고, 그 외에 추가적으로 여러 개의 Global 큐(Concurrent Queue)를 만들어서 큐를 관리합니다.
 - 각 작업은 동기(sync) 방식과 비동기(async) 방식으로 실행 가능하지만 Main 큐에서는 async만 사용이 가능합니다.
 
 
@@ -59,7 +59,7 @@
 
 
 
-#### 병렬성(Parallelis)
+#### 병렬성(Parallelism)
 
 - 물리적인 용어입니다.
 - 실제로 작업이 동시에 처리되는 것입니다.
@@ -140,7 +140,7 @@ DispatchQueue.global(qos: .utility).sync {}
 
 ### Special QoS Classes
 
-> 일반적으로, 별도로 사용할 일이 없는 특수 유형의 QoS
+> 일반적으로, 별도로 사용할 일이 없는 특수 유형의 QoS입니다.
 
 - **Default**
   - QoS를 별도로 지정하지 않으면 기본값으로 사용되는 형태이며 User Initiated와 Utility의 중간 레벨입니다.
@@ -211,7 +211,7 @@ DispatchQueue.global(qos: .userInitiated).async {
 
 > **경쟁 상태**란 **<u>공유 자원</u>**에 대해 **여러 개의 <u>프로세스</u>가 동시에 접근**을 시도할 때 접근의 타이밍이나 순서 등이 결과값에 영향을 줄 수 있는 상태를 말한다. 동시에 접근할 때 **자료의 <u>일관성</u>을 해치는 결과**가 나타날 수 있다.
 
--> **공유 자원에 여러 개의 프로세스가 동시에 접근하면 값이 예상과 다르게 변할 수 있어서 문제**
+-> **공유 자원에 여러 개의 프로세스가 동시에 접근하면 값이 예상과 다르게 변할 수 있어서 문제**입니다.
 
 
 
@@ -385,10 +385,6 @@ teskA write - teskB write
  **high** priority task가 **필요한 자원**을 **low** priority task가 **배타적으로 사용**하고 있는 경우에 발생하는 Priority Inversion 문제는 **GCD 자체적**으로 **우선 순위 조정**을 통해 문제를 해결합니다. (자원을 **점유**하고 있는 **task**의 **우선 순위를 높여**서 처리)
 
 GCD에서 자체적으로 처리하는 것 외에도, **공유 자원을 접근할 때는 동일한 QoS를 사용**해야 Priority Inversion의 가능성을 줄일 수 있습니다. 
-
-
-
-## 출처
 
 
 
