@@ -23,6 +23,13 @@
 		ACF81CC02919EC92009E4D56 /* RouterNavigationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF81CBF2919EC92009E4D56 /* RouterNavigationModifier.swift */; };
 		ACF81CC22919EF3E009E4D56 /* RouterSheetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF81CC12919EF3E009E4D56 /* RouterSheetModifier.swift */; };
 		ACF81CC42919F493009E4D56 /* RouterAlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF81CC32919F493009E4D56 /* RouterAlertModifier.swift */; };
+		ACF81CC6291B722E009E4D56 /* RouterCloseModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF81CC5291B722E009E4D56 /* RouterCloseModifier.swift */; };
+		ACF81CCA291B775D009E4D56 /* ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF81CC9291B775D009E4D56 /* ItemView.swift */; };
+		ACF81CCE291B79CB009E4D56 /* WWDCUrlServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF81CCD291B79CB009E4D56 /* WWDCUrlServiceProtocol.swift */; };
+		ACF81CD0291B7F36009E4D56 /* ListView+Build.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF81CCF291B7F36009E4D56 /* ListView+Build.swift */; };
+		ACF81CD2291B7F6E009E4D56 /* ListIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF81CD1291B7F6E009E4D56 /* ListIntent.swift */; };
+		ACF81CD4291B8220009E4D56 /* WWDCUrlService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF81CD3291B8220009E4D56 /* WWDCUrlService.swift */; };
+		ACF81CDA291B84A4009E4D56 /* SwiftUIData.plist in Resources */ = {isa = PBXBuildFile; fileRef = ACF81CD9291B84A4009E4D56 /* SwiftUIData.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +50,13 @@
 		ACF81CBF2919EC92009E4D56 /* RouterNavigationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterNavigationModifier.swift; sourceTree = "<group>"; };
 		ACF81CC12919EF3E009E4D56 /* RouterSheetModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterSheetModifier.swift; sourceTree = "<group>"; };
 		ACF81CC32919F493009E4D56 /* RouterAlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterAlertModifier.swift; sourceTree = "<group>"; };
+		ACF81CC5291B722E009E4D56 /* RouterCloseModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterCloseModifier.swift; sourceTree = "<group>"; };
+		ACF81CC9291B775D009E4D56 /* ItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemView.swift; sourceTree = "<group>"; };
+		ACF81CCD291B79CB009E4D56 /* WWDCUrlServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WWDCUrlServiceProtocol.swift; sourceTree = "<group>"; };
+		ACF81CCF291B7F36009E4D56 /* ListView+Build.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListView+Build.swift"; sourceTree = "<group>"; };
+		ACF81CD1291B7F6E009E4D56 /* ListIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListIntent.swift; sourceTree = "<group>"; };
+		ACF81CD3291B8220009E4D56 /* WWDCUrlService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WWDCUrlService.swift; sourceTree = "<group>"; };
+		ACF81CD9291B84A4009E4D56 /* SwiftUIData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SwiftUIData.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +93,7 @@
 				ACF81C992919DD18009E4D56 /* Assets.xcassets */,
 				ACF81C9B2919DD18009E4D56 /* Preview Content */,
 				ACF81CA32919DD6F009E4D56 /* Screens */,
+				ACF81CCB291B7999009E4D56 /* Services */,
 				ACF81CA62919DED9009E4D56 /* Utilites */,
 			);
 			path = "MVI-SwiftUI";
@@ -96,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				ACF81CA42919DDB8009E4D56 /* List */,
+				ACF81CC7291B7735009E4D56 /* Item */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -116,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				ACF81C972919DD17009E4D56 /* ListView.swift */,
+				ACF81CCF291B7F36009E4D56 /* ListView+Build.swift */,
 				ACF81CB42919E841009E4D56 /* Custom Elements */,
 			);
 			path = View;
@@ -143,6 +160,7 @@
 		ACF81CAA2919E5E6009E4D56 /* Intent */ = {
 			isa = PBXGroup;
 			children = (
+				ACF81CD1291B7F6E009E4D56 /* ListIntent.swift */,
 				ACF81CAB2919E61C009E4D56 /* ListIntentProtocol.swift */,
 			);
 			path = Intent;
@@ -177,10 +195,53 @@
 			isa = PBXGroup;
 			children = (
 				ACF81CC32919F493009E4D56 /* RouterAlertModifier.swift */,
+				ACF81CC5291B722E009E4D56 /* RouterCloseModifier.swift */,
 				ACF81CBF2919EC92009E4D56 /* RouterNavigationModifier.swift */,
 				ACF81CC12919EF3E009E4D56 /* RouterSheetModifier.swift */,
 			);
 			path = Modifier;
+			sourceTree = "<group>";
+		};
+		ACF81CC7291B7735009E4D56 /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				ACF81CC8291B774A009E4D56 /* View */,
+			);
+			path = Item;
+			sourceTree = "<group>";
+		};
+		ACF81CC8291B774A009E4D56 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ACF81CC9291B775D009E4D56 /* ItemView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		ACF81CCB291B7999009E4D56 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				ACF81CCC291B79B2009E4D56 /* WWDCUrl */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		ACF81CCC291B79B2009E4D56 /* WWDCUrl */ = {
+			isa = PBXGroup;
+			children = (
+				ACF81CCD291B79CB009E4D56 /* WWDCUrlServiceProtocol.swift */,
+				ACF81CD3291B8220009E4D56 /* WWDCUrlService.swift */,
+				ACF81CD5291B8234009E4D56 /* Data */,
+			);
+			path = WWDCUrl;
+			sourceTree = "<group>";
+		};
+		ACF81CD5291B8234009E4D56 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				ACF81CD9291B84A4009E4D56 /* SwiftUIData.plist */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,6 +304,7 @@
 			files = (
 				ACF81C9D2919DD18009E4D56 /* Preview Assets.xcassets in Resources */,
 				ACF81C9A2919DD18009E4D56 /* Assets.xcassets in Resources */,
+				ACF81CDA291B84A4009E4D56 /* SwiftUIData.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,11 +315,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACF81CD2291B7F6E009E4D56 /* ListIntent.swift in Sources */,
 				ACF81CB92919EB63009E4D56 /* ListRouter.swift in Sources */,
+				ACF81CD0291B7F36009E4D56 /* ListView+Build.swift in Sources */,
 				ACF81CBE2919EC1B009E4D56 /* RouterScreenProtocol.swift in Sources */,
+				ACF81CD4291B8220009E4D56 /* WWDCUrlService.swift in Sources */,
 				ACF81CB62919E8BC009E4D56 /* ListUrlContentView.swift in Sources */,
+				ACF81CCA291B775D009E4D56 /* ItemView.swift in Sources */,
 				ACF81CBB2919EBA4009E4D56 /* RouterProtocol.swift in Sources */,
 				ACF81C982919DD17009E4D56 /* ListView.swift in Sources */,
+				ACF81CCE291B79CB009E4D56 /* WWDCUrlServiceProtocol.swift in Sources */,
 				ACF81CC02919EC92009E4D56 /* RouterNavigationModifier.swift in Sources */,
 				ACF81CC22919EF3E009E4D56 /* RouterSheetModifier.swift in Sources */,
 				ACF81CB12919E713009E4D56 /* ListTypes.swift in Sources */,
@@ -265,6 +332,7 @@
 				ACF81CA92919E466009E4D56 /* MVIContainer.swift in Sources */,
 				ACF81CB32919E77B009E4D56 /* ListModel.swift in Sources */,
 				ACF81CAC2919E61C009E4D56 /* ListIntentProtocol.swift in Sources */,
+				ACF81CC6291B722E009E4D56 /* RouterCloseModifier.swift in Sources */,
 				ACF81CC42919F493009E4D56 /* RouterAlertModifier.swift in Sources */,
 				ACF81CAF2919E688009E4D56 /* ListModelProtocol.swift in Sources */,
 			);
