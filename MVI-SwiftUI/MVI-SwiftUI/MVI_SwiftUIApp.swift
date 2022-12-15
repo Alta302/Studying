@@ -11,7 +11,7 @@ import SwiftUI
 struct MVI_SwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
-            ListView()
+            ListView.build(data: .init())
         }
     }
 }
