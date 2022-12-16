@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC70B48A291CA7D700F62A00 /* ItemTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC70B489291CA7D700F62A00 /* ItemTypes.swift */; };
+		AC70B48F291CA84700F62A00 /* ItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC70B48E291CA84700F62A00 /* ItemModel.swift */; };
+		AC70B491291CA86E00F62A00 /* ItemModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC70B490291CA86E00F62A00 /* ItemModelProtocol.swift */; };
+		AC70B493291CB99E00F62A00 /* ItemRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC70B492291CB99E00F62A00 /* ItemRouter.swift */; };
+		AC70B495291CBBAD00F62A00 /* ItemIntentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC70B494291CBBAD00F62A00 /* ItemIntentProtocol.swift */; };
+		AC70B497291CBE4E00F62A00 /* ItemIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC70B496291CBE4E00F62A00 /* ItemIntent.swift */; };
+		AC70B499291CBFD600F62A00 /* ItemView+Build.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC70B498291CBFD600F62A00 /* ItemView+Build.swift */; };
 		ACF81C962919DD17009E4D56 /* MVI_SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF81C952919DD17009E4D56 /* MVI_SwiftUIApp.swift */; };
 		ACF81C982919DD17009E4D56 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF81C972919DD17009E4D56 /* ListView.swift */; };
 		ACF81C9A2919DD18009E4D56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF81C992919DD18009E4D56 /* Assets.xcassets */; };
@@ -33,6 +40,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AC70B489291CA7D700F62A00 /* ItemTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTypes.swift; sourceTree = "<group>"; };
+		AC70B48E291CA84700F62A00 /* ItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModel.swift; sourceTree = "<group>"; };
+		AC70B490291CA86E00F62A00 /* ItemModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModelProtocol.swift; sourceTree = "<group>"; };
+		AC70B492291CB99E00F62A00 /* ItemRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRouter.swift; sourceTree = "<group>"; };
+		AC70B494291CBBAD00F62A00 /* ItemIntentProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemIntentProtocol.swift; sourceTree = "<group>"; };
+		AC70B496291CBE4E00F62A00 /* ItemIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemIntent.swift; sourceTree = "<group>"; };
+		AC70B498291CBFD600F62A00 /* ItemView+Build.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ItemView+Build.swift"; sourceTree = "<group>"; };
 		ACF81C922919DD17009E4D56 /* MVI-SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MVI-SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF81C952919DD17009E4D56 /* MVI_SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVI_SwiftUIApp.swift; sourceTree = "<group>"; };
 		ACF81C972919DD17009E4D56 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
@@ -70,6 +84,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC70B48B291CA80C00F62A00 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AC70B48E291CA84700F62A00 /* ItemModel.swift */,
+				AC70B490291CA86E00F62A00 /* ItemModelProtocol.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AC70B48C291CA82500F62A00 /* Intent */ = {
+			isa = PBXGroup;
+			children = (
+				AC70B496291CBE4E00F62A00 /* ItemIntent.swift */,
+				AC70B494291CBBAD00F62A00 /* ItemIntentProtocol.swift */,
+			);
+			path = Intent;
+			sourceTree = "<group>";
+		};
+		AC70B48D291CA82F00F62A00 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				AC70B492291CB99E00F62A00 /* ItemRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 		ACF81C892919DD17009E4D56 = {
 			isa = PBXGroup;
 			children = (
@@ -205,7 +245,11 @@
 		ACF81CC7291B7735009E4D56 /* Item */ = {
 			isa = PBXGroup;
 			children = (
+				AC70B489291CA7D700F62A00 /* ItemTypes.swift */,
+				AC70B48B291CA80C00F62A00 /* Model */,
 				ACF81CC8291B774A009E4D56 /* View */,
+				AC70B48C291CA82500F62A00 /* Intent */,
+				AC70B48D291CA82F00F62A00 /* Router */,
 			);
 			path = Item;
 			sourceTree = "<group>";
@@ -214,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				ACF81CC9291B775D009E4D56 /* ItemView.swift */,
+				AC70B498291CBFD600F62A00 /* ItemView+Build.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -318,16 +363,23 @@
 				ACF81CD2291B7F6E009E4D56 /* ListIntent.swift in Sources */,
 				ACF81CB92919EB63009E4D56 /* ListRouter.swift in Sources */,
 				ACF81CD0291B7F36009E4D56 /* ListView+Build.swift in Sources */,
+				AC70B493291CB99E00F62A00 /* ItemRouter.swift in Sources */,
 				ACF81CBE2919EC1B009E4D56 /* RouterScreenProtocol.swift in Sources */,
+				AC70B48F291CA84700F62A00 /* ItemModel.swift in Sources */,
 				ACF81CD4291B8220009E4D56 /* WWDCUrlService.swift in Sources */,
+				AC70B499291CBFD600F62A00 /* ItemView+Build.swift in Sources */,
+				AC70B491291CA86E00F62A00 /* ItemModelProtocol.swift in Sources */,
 				ACF81CB62919E8BC009E4D56 /* ListUrlContentView.swift in Sources */,
 				ACF81CCA291B775D009E4D56 /* ItemView.swift in Sources */,
+				AC70B497291CBE4E00F62A00 /* ItemIntent.swift in Sources */,
 				ACF81CBB2919EBA4009E4D56 /* RouterProtocol.swift in Sources */,
 				ACF81C982919DD17009E4D56 /* ListView.swift in Sources */,
 				ACF81CCE291B79CB009E4D56 /* WWDCUrlServiceProtocol.swift in Sources */,
+				AC70B48A291CA7D700F62A00 /* ItemTypes.swift in Sources */,
 				ACF81CC02919EC92009E4D56 /* RouterNavigationModifier.swift in Sources */,
 				ACF81CC22919EF3E009E4D56 /* RouterSheetModifier.swift in Sources */,
 				ACF81CB12919E713009E4D56 /* ListTypes.swift in Sources */,
+				AC70B495291CBBAD00F62A00 /* ItemIntentProtocol.swift in Sources */,
 				ACF81C962919DD17009E4D56 /* MVI_SwiftUIApp.swift in Sources */,
 				ACF81CA92919E466009E4D56 /* MVIContainer.swift in Sources */,
 				ACF81CB32919E77B009E4D56 /* ListModel.swift in Sources */,
